@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from v4.nexopos.com/sign-in by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 22 Nov 2021 06:17:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In &mdash; NexoPOS</title>
+    <link rel="stylesheet" href="css/app.css">
+        <script>
+        /**
+         * constant where is registered
+         * global custom components
+         * @param  {Object}
+         */
+        window.nsExtraComponents     =   new Object;
+
+        /**
+         * describe a global NexoPOS object
+         * @param  {object} ns
+         */
+        window.ns =   { nsExtraComponents };
+
+        /**
+         * store the server date
+         * @param  {string}
+         */
+        window.ns.date                     =   {
+            current : '2021-11-22 06:17:45',
+            serverDate : '2021-11-22 06:17:45',
+            timeZone: ''
+        }
+
+        /**
+         * define the current language selected by the user or
+         * the language that applies to the system by default.
+         */
+        window.ns.language     =   'en';
+        window.ns.langFiles     =   {"NexoPOS":"http:\/\/v4.nexopos.com\/lang\/en.json"}    </script>
+    <script src="js/lang-loader.min.js"></script>
+<script>
+/**
+ * register webstocket configuration
+ */
+ns.websocket                =   {
+    key: ``,
+    port: `6001`,
+    host: `v4.nexopos.com`,
+    enabled: false,
+    secured: false 
+}
+</script></head>
+<body>
+        <div id="page-container" class="h-full w-full flex items-center overflow-y-auto pb-10 bg-gray-300">
+        <div class="container mx-auto p-4 md:p-0 flex-auto items-center justify-center flex">
+            <div id="sign-in-box" class="w-full md:w-3/5 lg:w-2/5">
+                <div class="flex justify-center items-center py-6">
+                                        <img class="w-32" src="svg/nexopos-variant-1.svg" alt="NexoPOS">
+                                    </div>
+                                <div class="relative mb-10">
+    <div class=" transform -skew-x-3 rotate-3 bg-transparent bg-gradient-to-tr rounded shadow from-blue-500 to-purple-600 absolute h-full w-full"></div>
+    <div class="my-2 shadow bg-white rounded p-2 z-10 relative">
+        <h3 class="text-2xl text-gray-800 text-center">Stagging Installation</h3>
+        <p class="text-sm text-gray-700">
+        You're about to test a stagging environment of NexoPOS 4.x. Recents commits(changes) are automatically deployed here. There might be bugs, issues and you're invited to <a class="text-blue-500 hover:underline" target="_blank" href="https://github.com/Blair2004/NexoPOS-4x/issues/new">let us know or just to share your impressions</a>
+        </p>
+        <ul class="text-gray-600">
+            <li><span class="font-bold">Username</span> : admin</li>
+            <li><span class="font-bold">Password</span> 123456</li>
+        </ul>
+    </div>
+</div>
+                <ns-login :show-recovery-link="false">
+    <div class="w-full flex items-center justify-center">
+        <h3 class="font-hairline text-sm">Loading...</h3>
+    </div>
+</ns-login>                
+            </div>
+        </div>
+    </div>
+                <script type="text/javascript">
+ns.currency         =   {"ns_currency_symbol":"$","ns_currency_iso":"USD","ns_currency_position":"before","ns_currency_thousand_separator":",","ns_currency_decimal_separator":".","ns_currency_precision":"2","ns_currency_prefered":"iso"};
+ns.authentication   =   {"token":null,"csrf":"UxCUlaBCrahMmOjkIUGaQnG5VdSVjWH0UFK8mBu5"};
+ns.base_url         =   'index.html';
+</script>
+
+<script src="js/manifest.js"></script>
+<script src="js/vendor.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/popups.min.js"></script>
+    
+    
+    <script src="js/auth.min.js"></script>
+</body>
+
+<!-- Mirrored from v4.nexopos.com/sign-in by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 22 Nov 2021 06:17:49 GMT -->
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS &mdash; NexoPOS</title>
+    <link rel="stylesheet" href="https://v4.nexopos.com/css/app.css">
+        
+        <script>
+        /**
+         * constant where is registered
+         * global custom components
+         * @param  {Object}
+         */
+        window.nsExtraComponents     =   new Object;
+
+        /**
+         * describe a global NexoPOS object
+         * @param  {object} ns
+         */
+        window.ns =   { nsExtraComponents };
+
+        /**
+         * store the server date
+         * @param  {string}
+         */
+        window.ns.date                     =   {
+            current : '2021-11-22 14:07:36',
+            serverDate : '2021-11-22 14:07:36',
+            timeZone: ''
+        }
+
+        /**
+         * define the current language selected by the user or
+         * the language that applies to the system by default.
+         */
+        window.ns.language     =   'en';
+        window.ns.langFiles     =   {"NexoPOS":"https:\/\/v4.nexopos.com\/lang\/en.json"}    </script>
+    <script src="https://v4.nexopos.com/js/lang-loader.min.js"></script>
+<script>
+/**
+ * register webstocket configuration
+ */
+ns.websocket                =   {
+    key: ``,
+    port: `6001`,
+    host: `v4.nexopos.com`,
+    enabled: false,
+    secured: false 
+}
+</script></head>
+<body>
+    <div id="pos-app" class="h-full w-full relative">
+    <ns-pos></ns-pos>
+    <div id="loader" class="top-0 anim-duration-500 fade-in-entrance left-0 absolute w-full h-full flex flex-col items-center justify-center bg-gray-200">
+                <img src="https://v4.nexopos.com/svg/nexopos-variant-1.svg" class="w-32" alt="POS">
+                <p class="font-semibold py-2 text-gray-700">Loading...</p>
+    </div>
+</div>
+                <script type="text/javascript">
+ns.currency         =   {"ns_currency_symbol":"$","ns_currency_iso":"USD","ns_currency_position":"before","ns_currency_thousand_separator":",","ns_currency_decimal_separator":".","ns_currency_precision":"2","ns_currency_prefered":"iso"};
+ns.authentication   =   {"token":null,"csrf":"YZDZKb6jbD2qIdPjCA56HYf3p3r2REvuJJ9ON8dL"};
+ns.base_url         =   'https://v4.nexopos.com';
+</script>
+
+<script src="https://v4.nexopos.com/js/manifest.js"></script>
+<script src="https://v4.nexopos.com/js/vendor.js"></script>
+<script src="https://v4.nexopos.com/js/bootstrap.min.js"></script>
+<script src="https://v4.nexopos.com/js/popups.min.js"></script>
+    
+    <script src="https://v4.nexopos.com/js/pos-init.min.js"></script>
+    <script>
+    POS.defineTypes({"takeaway":{"identifier":"takeaway","label":"Take Away","icon":"\/images\/groceries.png","selected":false},"delivery":{"identifier":"delivery","label":"Delivery","icon":"\/images\/delivery.png","selected":false}});
+    POS.defineOptions( {"ns_pos_printing_document":"receipt","ns_orders_allow_partial":"no","ns_orders_allow_unpaid":"no","ns_orders_follow_up":"no","ns_pos_customers_creation_enabled":"no","ns_pos_order_types":[],"ns_pos_order_sms":"no","ns_pos_sound_enabled":"yes","ns_pos_quick_product":"no","ns_pos_gross_price_used":"no","ns_pos_unit_price_ediable":"no","ns_pos_printing_enabled_for":"only_paid_ordes","ns_pos_registers_enabled":"no","ns_pos_idle_counter":0,"ns_pos_disbursement":"no","ns_customers_default":false,"ns_pos_vat":"disabled","ns_pos_tax_group":false,"ns_pos_tax_type":false,"ns_pos_printing_gateway":"default","ns_pos_show_quantity":false,"ns_pos_new_item_audio":"","ns_pos_complete_sale_audio":""});
+    POS.defineSettings({
+        barcode_search          :   true,
+        text_search             :   false,
+        edit_purchase_price     :   true,
+        edit_settings           :   true,
+        products_discount       :   true,
+        cart_discount           :   true,
+        breadcrumb              :   [],
+        products_queue          :   [],
+        unit_price_editable     :   true,
+        urls                    :   {"printing_url":"https:\/\/v4.nexopos.com\/dashboard\/orders\/receipt\/{id}?dash-visibility=disabled&autoprint=true","orders_url":"https:\/\/v4.nexopos.com\/dashboard\/orders","dashboard_url":"https:\/\/v4.nexopos.com\/dashboard","registers_url":"https:\/\/v4.nexopos.com\/dashboard\/cash-registers\/create"}    });
+
+    POS.definedPaymentsType( [{"id":1,"label":"Cash","identifier":"cash-payment","description":null,"author":33,"active":1,"readonly":1,"created_at":"2021-11-22T12:00:06.000000Z","updated_at":"2021-11-22T12:00:06.000000Z","selected":true},{"id":2,"label":"Bank Payment","identifier":"bank-payment","description":null,"author":33,"active":1,"readonly":1,"created_at":"2021-11-22T12:00:06.000000Z","updated_at":"2021-11-22T12:00:06.000000Z","selected":false},{"id":3,"label":"Customer Account","identifier":"account-payment","description":null,"author":33,"active":1,"readonly":1,"created_at":"2021-11-22T12:00:06.000000Z","updated_at":"2021-11-22T12:00:06.000000Z","selected":false}] );
+
+    document.addEventListener( 'DOMContentLoaded', () => {
+        const loader    =   document.getElementById( 'loader' );
+        loader.classList.remove( 'fade-in-entrance' );
+        loader.classList.add( 'fade-out-exit' );
+        
+        setTimeout( () => {
+            loader.remove();
+        }, 500 ); 
+        POS.reset();
+    });    
+    </script>
+    <script src="https://v4.nexopos.com/js/pos.min.js"></script>
+</body>
+</html>

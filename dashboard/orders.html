@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders &mdash; NexoPOS 4</title>
+    <link rel="stylesheet" href="https://v4.nexopos.com/css/app.css">
+        <script>
+        /**
+         * constant where is registered
+         * global custom components
+         * @param  {Object}
+         */
+        window.nsExtraComponents     =   new Object;
+
+        /**
+         * describe a global NexoPOS object
+         * @param  {object} ns
+         */
+        window.ns   =   { nsExtraComponents };
+
+        /**
+         * store the server date
+         * @param  {string}
+         */
+        window.ns.date  =   {
+            current : '2021-11-22 14:08:52',
+            serverDate : '2021-11-22 14:08:52',
+            timeZone: ''
+        }
+
+        /**
+         * define the current language selected by the user or
+         * the language that applies to the system by default.
+         */
+        window.ns.language      =   'en';
+        window.ns.langFiles     =   {"NexoPOS":"https:\/\/v4.nexopos.com\/lang\/en.json"}    </script>
+    <script src="https://v4.nexopos.com/js/lang-loader.min.js"></script>
+<script>
+/**
+ * register webstocket configuration
+ */
+ns.websocket                =   {
+    key: ``,
+    port: `6001`,
+    host: `v4.nexopos.com`,
+    enabled: false,
+    secured: false 
+}
+</script></head>
+<body>
+    <div class="h-full w-full flex flex-col">
+        <div id="dashboard-body" class="overflow-hidden flex flex-auto">
+            <div id="dashboard-aside" v-cloak v-if="sidebar === 'visible'" class="w-64 z-50 absolute md:static flex-shrink-0 bg-gray-900 h-full flex-col overflow-hidden">
+                <div class="overflow-y-auto h-full text-sm">
+                    <div class="logo py-4 flex justify-center items-center">
+                                                <h1 class="font-black text-transparent bg-clip-text bg-gradient-to-b from-blue-200 to-indigo-400 text-3xl">NexoPOS</h1>
+                                            </div>
+                    <ul>
+                                                                                <ns-menu identifier="dashboard" toggled="" label="Dashboard" icon="la-home" href="" notification="0" id="menu-dashboard">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard" id="submenu-index">Home</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="pos" toggled="" label="POS" icon="la-cash-register" href="https://v4.nexopos.com/dashboard/pos" notification="0" id="menu-pos">
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="orders" toggled="1" label="Orders" icon="la-list-ol" href="" notification="0" id="menu-orders">
+                                                                                                                                                <ns-submenu :active="true" href="https://v4.nexopos.com/dashboard/orders" id="submenu-order-list">Orders List</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/orders/payments-types" id="submenu-payment-type">Payment Types</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="medias" toggled="" label="Medias" icon="la-photo-video" href="https://v4.nexopos.com/dashboard/medias" notification="0" id="menu-medias">
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="customers" toggled="" label="Customers" icon="la-user-friends" href="" notification="0" id="menu-customers">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers" id="submenu-customers">List</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/create" id="submenu-create-customer">Create Customer</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/groups" id="submenu-customers-groups">Customers Groups</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/groups/create" id="submenu-create-customers-group">Create Group</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/rewards-system" id="submenu-list-reward-system">Reward Systems</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/rewards-system/create" id="submenu-create-reward-system">Create Reward</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/coupons" id="submenu-list-coupons">List Coupons</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/customers/coupons/create" id="submenu-create-coupons">Create Coupon</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="providers" toggled="" label="Providers" icon="la-user-tie" href="" notification="0" id="menu-providers">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/providers" id="submenu-providers">List</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/providers/create" id="submenu-create-provider">Create A Provider</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="expenses" toggled="" label="Accounting" icon="la-stream" href="" notification="0" id="menu-expenses">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/expenses" id="submenu-expenses">Expenses</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/expenses/create" id="submenu-create-expense">Create Expense</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/cash-flow/history" id="submenu-cash-flow-history">Cash Flow History</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/expenses/categories" id="submenu-expenses-categories">Expense Accounts</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/expenses/categories/create" id="submenu-create-expenses-categories">Create Expense Account</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="inventory" toggled="" label="Inventory" icon="la-boxes" href="" notification="0" id="menu-inventory">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/products" id="submenu-products">Products</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/products/create" id="submenu-create-products">Create Product</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/products/print-labels" id="submenu-labels-printing">Print Labels</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/products/categories" id="submenu-categories">Categories</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/products/categories/create" id="submenu-create-categories">Create Category</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/units" id="submenu-units">Units</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/units/create" id="submenu-create-units">Create Unit</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/units/groups" id="submenu-unit-groups">Unit Groups</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/units/groups/create" id="submenu-create-unit-groups">Create Unit Groups</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/products/stock-adjustment" id="submenu-stock-adjustment">Stock Adjustment</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="ns-importer" toggled="" label="Bulk Importer" icon="la-cloud-upload-alt" href="" notification="0" id="menu-ns-importer">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/bulk-importer/products" id="submenu-import-products">Import Products</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/bulk-importer/customers" id="submenu-import-customers">Import Customers</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="taxes" toggled="" label="Taxes" icon="la-balance-scale-left" href="" notification="0" id="menu-taxes">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/taxes/groups" id="submenu-taxes-groups">Taxes Groups</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/taxes/groups/create" id="submenu-create-taxes-group">Create Tax Groups</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/taxes" id="submenu-taxes">Taxes</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/taxes/create" id="submenu-create-tax">Create Tax</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="modules" toggled="" label="Modules" icon="la-plug" href="" notification="0" id="menu-modules">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/modules" id="submenu-modules">List</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/modules/upload" id="submenu-upload-module">Upload Module</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="users" toggled="" label="Users" icon="la-users" href="" notification="0" id="menu-users">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/users/profile" id="submenu-profile">Profile</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/users" id="submenu-users">List</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/users/create" id="submenu-create-user">Create User</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/users/roles" id="submenu-roles">Roles</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/users/roles/create" id="submenu-create-role">Create Roles</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/users/roles/permissions-manager" id="submenu-permissions">Permissions Manager</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="procurements" toggled="" label="Procurements" icon="la-truck-loading" href="" notification="0" id="menu-procurements">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/procurements" id="submenu-procurements">Procurements List</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/procurements/create" id="submenu-procurements-create">New Procurement</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/procurements/products" id="submenu-procurements-products">Products</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="reports" toggled="" label="Reports" icon="la-chart-pie" href="" notification="0" id="menu-reports">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/sales" id="submenu-sales">Sale Report</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/products-report" id="submenu-products-report">Products Report</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/sold-stock" id="submenu-sold-stock">Sold Stock</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/profit" id="submenu-profit">Incomes &amp; Loosses</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/cash-flow" id="submenu-cash-flow">Cash Flow</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/annual-report" id="submenu-annulal-sales">Annual Report</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/reports/payment-types" id="submenu-payment-types">Sales By Payments</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                                                            <ns-menu identifier="settings" toggled="" label="Settings" icon="la-cogs" href="" notification="0" id="menu-settings">
+                                                                                                                                                <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/general" id="submenu-general">General</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/pos" id="submenu-pos">POS</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/customers" id="submenu-customers">Customers</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/supplies-deliveries" id="submenu-supplies-delivery">Supplies &amp; Deliveries</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/orders" id="submenu-orders">Orders</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/accounting" id="submenu-accounting">Accounting</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/reports" id="submenu-reports">Reports</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/invoice-settings" id="submenu-invoice-settings">Invoice Settings</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/service-providers" id="submenu-service-providers">Service Providers</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/notifications" id="submenu-notifications">Notifications</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/workers" id="submenu-workers">Workers</ns-submenu>
+                                                                                                                                                        <ns-submenu :active="false" href="https://v4.nexopos.com/dashboard/settings/reset" id="submenu-reset">Reset</ns-submenu>
+                                                                                    
+                                                            </ns-menu>
+                                                                        </ul>
+                </div>
+            </div>
+            <div id="dashboard-overlay" v-if="sidebar === 'visible'" @click="closeMenu()" class="z-40 w-full h-full md:hidden absolute" style="background: rgb(51 51 51 / 25%)"></div>
+            <div class="flex flex-auto flex-col overflow-hidden bg-gray-200">
+                <div class="overflow-y-auto flex-auto">
+                    <div>
+    <div id="dashboard-header" class="w-full flex justify-between p-4">
+    <div class="flex items-center">
+        <div>
+            <div @click="toggleSideMenu()" class="hover:bg-white hover:text-gray-700 hover:shadow-lg hover:border-opacity-0 border border-gray-400 rounded-full h-10 w-10 cursor-pointer font-bold text-2xl justify-center items-center flex text-gray-800">
+                <i class="las la-bars"></i>
+            </div>
+        </div>
+    </div>
+    <div class="top-tools-side flex items-center -mx-2">
+        <div clss="px-2">
+            <ns-notifications></ns-notifications>
+        </div>
+        <div class="px-2">
+            <div @click="toggleMenu()" :class="menuToggled ? 'bg-white border-transparent shadow-lg rounded-t-lg' : 'border-gray-400 rounded-lg'" class="w-32 md:w-56 flex flex-col border py-2 justify-center hover:border-opacity-0 cursor-pointer hover:shadow-lg hover:bg-white">
+                <ns-avatar 
+                    display-name="admin"
+                    url=""></ns-avatar>
+            </div>
+            <div v-cloak class="w-32 md:w-56 shadow-lg flex z-10 absolute -mb-2 rounded-br-lg rounded-bl-lg overflow-hidden" v-if="menuToggled">
+                <ul class="text-gray-700 w-full bg-white">
+                                        <li class="hover:bg-blue-400 bg-white hover:text-white"><a class="block px-2 py-1" href="https://v4.nexopos.com/dashboard/users/profile"><i class="las text-lg mr-2 la-user-tie"></i> Profile</a></li>
+                                        <li class="hover:bg-blue-400 bg-white hover:text-white"><a class="block px-2 py-1" href="https://v4.nexopos.com/sign-out"><i class="las la-sign-out-alt mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>    <div id="dashboard-content" class="px-4">
+        <div class="page-inner-header mb-4">
+            <h3 class="text-3xl text-gray-800 font-bold">Managing Orders</h3>
+            <p class="text-gray-600">Manage all registered orders.</p>
+        </div>
+        <ns-crud 
+            src="https://v4.nexopos.com/api/nexopos/v4/crud/ns.orders"
+            identifier="ns.orders"
+            create-url="https://v4.nexopos.com/dashboard/pos"
+            id="crud-table-body">
+        </ns-crud>
+    </div>
+</div>
+                </div>
+                <div class="p-2 text-xs flex justify-end text-gray-500">
+                    You're using <a tager="_blank" href="https://my.nexopos.com/en" class="hover:text-blue-400 mx-1 inline-block">NexoPOS 4.5.3</a>
+                </div>
+            </div>
+        </div>
+    </div>
+                <script type="text/javascript">
+ns.currency         =   {"ns_currency_symbol":"$","ns_currency_iso":"USD","ns_currency_position":"before","ns_currency_thousand_separator":",","ns_currency_decimal_separator":".","ns_currency_precision":"2","ns_currency_prefered":"iso"};
+ns.authentication   =   {"token":null,"csrf":"YZDZKb6jbD2qIdPjCA56HYf3p3r2REvuJJ9ON8dL"};
+ns.base_url         =   'https://v4.nexopos.com';
+</script>
+
+<script src="https://v4.nexopos.com/js/manifest.js"></script>
+<script src="https://v4.nexopos.com/js/vendor.js"></script>
+<script src="https://v4.nexopos.com/js/bootstrap.min.js"></script>
+<script src="https://v4.nexopos.com/js/popups.min.js"></script>
+        <script defer src="https://v4.nexopos.com/js/app.min.js"></script>
+    
+<script>
+const processingStatuses  =   [{"label":"Pending","value":"pending"},{"label":"Ongoing","value":"ongoing"},{"label":"Ready","value":"ready"},{"label":"Not Available","value":"not-available"}];
+const deliveryStatuses    =   [{"label":"Pending","value":"pending"},{"label":"Ongoing","value":"ongoing"},{"label":"Delivered","value":"delivered"},{"label":"Failed","value":"failed"},{"label":"Not Available","value":"not-available"}];
+const typeLabels          =   [{"label":"Pending","value":"delivery"},{"label":"Ongoing","value":"takeaway"},{"label":"Not Available","value":"not-available"}];
+const paymentLabels       =   [{"label":"Hold","value":"hold"},{"label":"Unpaid","value":"unpaid"},{"label":"Partially Paid","value":"partially_paid"},{"label":"Paid","value":"paid"},{"label":"Voided","value":"order_void"},{"label":"Refunded","value":"refunded"},{"label":"Partially Refunded","value":"partially_refunded"}];
+const systemOptions       =   {"ns_pos_printing_document":"receipt","ns_pos_printing_gateway":"default"}
+const systemSettings      =  {"printing_url":"https:\/\/v4.nexopos.com\/dashboard\/orders\/refund-receipt\/{order_id}?autoprint=true&dash-visibility=disabled"}
+document.addEventListener( 'DOMContentLoaded', () => {
+    nsEvent.subject().subscribe( event => {
+        if ( 
+            event.identifier === 'ns-table-row-action' && 
+            event.value.action.namespace === 'ns.order-options' 
+        ) {
+            Popup.show( nsOrderPreview, { order : event.value.row, component : event.value.component });
+        }
+
+        if ( 
+            event.identifier === 'ns-table-row-action' && 
+            event.value.action.namespace === 'ns.order-refunds' 
+        ) {
+            Popup.show( nsOrdersRefund, { order : event.value.row, component : event.value.component });
+        }
+    });
+});
+</script>
+</body>
+</html>
